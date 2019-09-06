@@ -1,0 +1,42 @@
+JAVA_HOME
+C:\Program Files\Java\jdk1.8.0_212
+
+path(해당 이름치면 path 찾아감 구분은 ;로  보통은 user에 java c구동안됨 그걸 하게함.
+프로그램이 없다 path로 찾아감. ;를 한덩어리로 봄 java c로 구동할 만한거 찾음 다음 ;까지감
+;찾고 ;찾고.. ;안에 bin안에 java있네 구동시켜 줌. 기존에 있는거 유지 중요.
+
+eg)path를 추가해줘. 
+eclipse는 자동으로 컴파일 메이븐은 따로 안 밖으로 구동..꼭 있지 않아도 되나..케바케라는 위험성..
+현재: C:\Program Files\Bandizip\
+
+-> (선택o)
+C:\Program Files\Java\jdk1.8.0_212\bin;
+
+또는(선택x)
+%JAVA_HOME%\bin;
+
+결과물
+C:\Program Files\Java\jdk1.8.0_212\bin;C:\Program Files\Bandizip\
+
+
+
+
+
+
+->
+C:\z_LimHY\apache-maven-3.6.1\bin\
+
+결과물(%JAVA_HOME%\bin; 는 튕겨서 다른 선택)
+C:\Program Files\Bandizip\;C:\Program Files\Java\jdk1.8.0_212\bin\;C:\z_LimHY\apache-maven-3.6.1\bin\
+
+
+현재:
+
+-
+
+결과물
+
+
+
+
+gradle은 import..찾아서 깜

@@ -1,5 +1,8 @@
 package com.test.my01;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AppleSpeaker implements Speaker {
 	private int level =5;
 	public AppleSpeaker() {

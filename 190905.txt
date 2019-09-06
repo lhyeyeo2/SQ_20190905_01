@@ -1,0 +1,260 @@
+/* 190905
+
+
+
+프로젝트 SQ_20190905_01 의  pom.xml  //만들때 프로젝트는SQ_20190905_01  
+	//다음 com.test.my01(?끝이 중요)로 만들래서
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.test</groupId>
+	<artifactId>my01</artifactId>
+	<name>SQ_20190905_01</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<properties>
+		<java-version>1.8</java-version>
+		<org.springframework-version>5.1.9.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.9.4</org.aspectj-version>
+		<org.slf4j-version>1.7.28</org.slf4j-version>
+	</properties>
+
+
+//my01.SamsungTV.java
+
+package com.test.my01;
+
+public class SamsungTV implements TV {
+	// 해상도
+	// 밝기
+	//private SonySpeaker speaker = new SonySpeaker();
+	private Speaker speaker;
+	//private SonySpeaker speaker; 만 쓰면  틀이라 작동 x
+	private int price;
+	
+	public void initMethod() {
+		System.out.println("SamsungTV--initMethod 초기화 작업 처리를 넣으면 됩니다.");
+	}
+	public void destroyMethod() {
+		System.out.println("SamsungTV--destroyMethod 객체가 삭제되기 전에 처리될 부분을 넣으면 됩니다..");
+	}
+	public SamsungTV() {
+		System.out.println("SamsungTV--SamsungTV 객체 생성");
+	}
+	public SamsungTV(Speaker speaker , int price) {
+		System.out.println("SamsungTV--SamsungTV 객체 생성");
+		this.speaker = speaker;		
+		this.price = price;
+	}
+	public void setSpeaker(Speaker speaker) {
+		System.out.println("SamsungTV--setSpeaker()");
+		this.speaker = speaker;
+	}
+	public void setPrice(int price) {
+		System.out.println("SamsungTV--setPrice()");
+		this.price = price;
+	}
+	// 전원 켜기
+	public void powerOn() {
+		System.out.println("SamsungTV--powerOn");
+	}
+	// 전원 끄기
+	public void powerOff() {
+		System.out.println("SamsungTV--powerOff");
+	}	
+	// 소리 키우기
+	public void volumeUp() {
+		System.out.println("SamsungTV--volumeUp");
+		speaker = new SonySpeaker();
+		speaker.volumeUp();
+	}
+	// 소리 줄이기
+	public void volumeDown() {
+		System.out.println("SamsungTV--volumeDown");
+		speaker = new SonySpeaker();
+		speaker.volumeDown();
+	}
+	public void changeChannel() {
+		System.out.println("SamsungTV--changeChannel");
+	}
+
+
+
+
+
+
+//CollectionBean.java
+
+package com.test.ioc.injection;
+
+
+
+import java.util.List;
+
+public class CollectionBean {
+	private List<String> addressList;
+
+	public List<String> getAddressList() {
+		System.out.println("getAddressList()");
+		return addressList;
+	}
+
+	public void setAddressList(List<String> addressList) {
+		System.out.println("setAddressList()");
+		this.addressList = addressList;
+	}
+	
+}
+*/
+
+
+
+
+
+//CollectionBeanClient.java  //메인메소드
+
+package com.test.ioc.injection;
+
+import java.util.List;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+public class CollectionBeanClient {
+	public static void main(String [] args) {
+		AbstractApplicationContext factory = new GenericXmlApplicationContext("applicationContext.xml");
+		CollectionBean bean = (CollectionBean)factory.getBean("collectionBean");
+		List<String> addressList= bean.getAddressList();  //key첫번째 꺼냄
+		for(String address:addressList) {	//key두번째에서 value 꺼냄
+			System.out.println(address.toString());
+		}
+	}
+	
+}
+*/
+
+
+
+
+//SQ_20190905_01\src\main\resources\applicationContext.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	
+	<bean id="collectionBean" class="com.test.ioc.injection.CollectionBean" >
+		<property name="addressList">
+			<list>
+				<value>대구시 동구 동부로</value>
+				<value>대구시 수성구 수성로</value>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean id="stv" class="com.test.my01.SamsungTV" p:speaker-ref="sony" p:price="2700000"></bean>
+	<bean id="ltv" class="com.test.my01.LgTV" >
+		<constructor-arg index="0" ref="apple"></constructor-arg>
+		<constructor-arg index="1" value="200000"></constructor-arg>
+	</bean>
+<!-- 	<bean id="stv" class="com.test.my01.SamsungTV">
+		<property name="speaker" ref="sony"></property>
+		<property name="price" value="12300000"></property>
+	</bean> -->
+	
+	<bean id="sony" class="com.test.my01.SonySpeaker"/>
+	<bean id="apple" class="com.test.my01.AppleSpeaker"/>
+</beans>
+
+
+
+
+//전자의 내용 b
+<bean id="collectionBean" class="com.test.ioc.injection.CollectionBean" >
+		<property name="addressList">
+			<map>
+				<entry>
+					<key><value>a경북산업직업전문학교</value></key>
+					<value>대구시 동구 동부로</value>
+				</entry>	
+				<entry>
+					<key><value>b김은주</value></key>
+					<value>대구시 수성구 수성로</value>
+				</entry>
+			</map>
+		</property>	
+	</bean>
+
+
+
+
+
+
+//TVUser.java
+
+package com.test.my01;
+
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+//import가.. 안된다.아아아아ㅏ앙
+public class TVUser {
+	public static void main(String[] args) {
+		
+		AbstractApplicationContext factory = 
+				new GenericXmlApplicationContext("applicationContext.xml");
+		
+		//BeanFactory factory = new BeanFactory();
+		
+	
+		//TV tv = new SamsungTV();
+		//TV tv= (TV)factory.getBeans("samsung");
+		//new가 ~하도록 디자인중 지금까지 디자인 한 이유..
+		//TV tv= (TV)factory.getBean("args[0]");
+		TV tv= (TV)factory.getBean("ltv");
+		tv.powerOn();
+		tv.volumeUp();
+		tv.volumeUp();
+		tv.volumeUp();
+		tv.volumeDown();
+		tv.powerOff();
+		
+		//tv= new LgTV();
+		//LgTV ltv= (TV)factory.getBean("lg");
+		//SonySpeaker speaker  = new SonySpeaker();
+		//tv= new SamsungTV(speaker);
+		//LgTV ltv= (TV)factory.getBean("args[1]");
+		tv= (TV)factory.getBean("stv");
+		tv.powerOn();
+		tv.volumeUp();
+		tv.volumeUp();
+		tv.volumeUp();
+		tv.volumeDown();
+		tv.volumeDown();
+		tv.powerOff();
+		
+		
+
+		
+		
+//		TV tv1= (TV)factory.getBean("stv");
+//		TV tv2= (TV)factory.getBean("stv");
+//		TV tv3= (TV)factory.getBean("stv");
+//		tv1.powerOn();
+//		tv2.powerOn();
+//		tv3.powerOn();
+//		
+//		TV tv4= (TV)factory.getBean("ltv");
+//		TV tv5= (TV)factory.getBean("ltv");
+//		TV tv6= (TV)factory.getBean("ltv");
+//		tv4.powerOn();
+//		tv5.powerOn();
+//		tv6.powerOn();
+		
+		factory.close();
+
+
+	}
+}
+
+
